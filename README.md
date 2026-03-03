@@ -1,0 +1,2 @@
+# LUNG-CANCER-PREDICTION-MODEL-USING-ML-AND-WEB-APPLICATION
+Lung cancer is a major global health burden and a leading cause of cancer-related deaths. Many patients are diagnosed at advanced stages, when treatment options are limited and prognosis is poor. Consequently, there is strong interest in risk stratification tools that can help identify high-risk individuals earlier and support timely diagnostic .
