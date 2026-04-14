@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In - Lung Cancer Risk Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+  <main class="auth-container">
+    <div class="auth-card">
+      <h1>Sign In</h1>
+      <p class="auth-subtitle">Access the Lung Cancer Risk Prediction System</p>
+
+      {% if error %}
+      <div class="alert">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" class="auth-form">
+        <label>
+          Username
+          <input type="text" name="username" required autofocus>
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" required>
+        </label>
+        <button type="submit">Sign In</button>
+      </form>
+
+      <p class="auth-link">
+        Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+      </p>
+    </div>
+  </main>
+</body>
+
+</html>
+

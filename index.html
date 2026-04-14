@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lung Cancer Risk Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-content">
+      <span class="nav-title">Lung Cancer Risk Predictor</span>
+      {% if user %}
+      <div class="nav-user">
+        <span>Welcome, <strong>{{ user.username }}</strong></span>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+  <main class="container">
+    <h1>Lung Cancer Detection Demo</h1>
+    <p>Enter patient lifestyle factors and symptoms to estimate lung cancer risk.</p>
+
+    {% if error %}
+    <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" class="prediction-form">
+      <fieldset class="form-section">
+        <legend>Demographics</legend>
+        <div class="grid">
+          <label>Age (years)
+            <input type="number" name="age" min="18" max="100" step="1" required>
+          </label>
+          <label>Gender (0 = Female, 1 = Male)
+            <input type="number" name="gender" min="0" max="1" step="1" required>
+          </label>
+          <label>BMI (Body Mass Index)
+            <input type="number" name="bmi" min="15" max="50" step="0.1" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Lifestyle & Exposure Factors</legend>
+        <div class="grid">
+          <label>Smoking Years
+            <input type="number" name="smoking_years" min="0" max="60" step="1" required>
+          </label>
+          <label>Air Pollution Exposure (0-100)
+            <input type="number" name="air_pollution" min="0" max="100" step="1" required>
+          </label>
+          <label>Alcohol Intake (units/week)
+            <input type="number" name="alcohol_intake" min="0" max="10" step="1" required>
+          </label>
+          <label>Physical Activity Level (1-5, 5=very high)
+            <input type="number" name="physical_activity" min="1" max="5" step="1" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Medical History & Risk Factors</legend>
+        <div class="grid">
+          <label>Family History of Cancer (0 = no, 1 = yes)
+            <input type="number" name="family_history" min="0" max="1" step="1" required>
+          </label>
+          <label>Asbestos Exposure (0 = no, 1 = yes)
+            <input type="number" name="asbestos_exposure" min="0" max="1" step="1" required>
+          </label>
+          <label>Occupational Exposure (0 = no, 1 = yes)
+            <input type="number" name="occupational_exposure" min="0" max="1" step="1" required>
+          </label>
+          <label>COPD (0 = no, 1 = yes)
+            <input type="number" name="copd" min="0" max="1" step="1" required>
+          </label>
+          <label>Previous Lung Disease (0 = no, 1 = yes)
+            <input type="number" name="previous_lung_disease" min="0" max="1" step="1" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Primary Symptoms</legend>
+        <div class="grid">
+          <label>Coughing (0 = no, 1 = yes)
+            <input type="number" name="coughing" min="0" max="1" step="1" required>
+          </label>
+          <label>Fatigue (0 = no, 1 = yes)
+            <input type="number" name="fatigue" min="0" max="1" step="1" required>
+          </label>
+          <label>Weight Loss (0 = no, 1 = yes)
+            <input type="number" name="weight_loss" min="0" max="1" step="1" required>
+          </label>
+          <label>Shortness of Breath (0 = no, 1 = yes)
+            <input type="number" name="shortness_of_breath" min="0" max="1" step="1" required>
+          </label>
+          <label>Chest Pain (0 = no, 1 = yes)
+            <input type="number" name="chest_pain" min="0" max="1" step="1" required>
+          </label>
+          <label>Wheezing (0 = no, 1 = yes)
+            <input type="number" name="wheezing" min="0" max="1" step="1" required>
+          </label>
+          <label>Yellow Fingers (0 = no, 1 = yes)
+            <input type="number" name="yellow_fingers" min="0" max="1" step="1" required>
+          </label>
+          <label>Clubbing of Fingers (0 = no, 1 = yes)
+            <input type="number" name="clubbing" min="0" max="1" step="1" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-section">
+        <legend>Additional Symptoms</legend>
+        <div class="grid">
+          <label>Hemoptysis - Coughing up Blood (0 = no, 1 = yes)
+            <input type="number" name="hemoptysis" min="0" max="1" step="1" required>
+          </label>
+          <label>Hoarseness - Voice Changes (0 = no, 1 = yes)
+            <input type="number" name="hoarseness" min="0" max="1" step="1" required>
+          </label>
+          <label>Loss of Appetite (0 = no, 1 = yes)
+            <input type="number" name="loss_of_appetite" min="0" max="1" step="1" required>
+          </label>
+          <label>Night Sweats (0 = no, 1 = yes)
+            <input type="number" name="night_sweats" min="0" max="1" step="1" required>
+          </label>
+          <label>Fever (0 = no, 1 = yes)
+            <input type="number" name="fever" min="0" max="1" step="1" required>
+          </label>
+          <label>Difficulty Swallowing (0 = no, 1 = yes)
+            <input type="number" name="difficulty_swallowing" min="0" max="1" step="1" required>
+          </label>
+          <label>Bone Pain (0 = no, 1 = yes)
+            <input type="number" name="bone_pain" min="0" max="1" step="1" required>
+          </label>
+          <label>Headache (0 = no, 1 = yes)
+            <input type="number" name="headache" min="0" max="1" step="1" required>
+          </label>
+          <label>Anemia (0 = no, 1 = yes)
+            <input type="number" name="anemia" min="0" max="1" step="1" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="submit-btn">Predict Risk</button>
+    </form>
+
+    {% if prediction is not none %}
+    <section class="results">
+      <h2>Prediction</h2>
+      <p><strong>Probability:</strong> {{ probability }}</p>
+      <p><strong>Risk Level:</strong> {{ risk_level }}</p>
+      <p><strong>Model Output:</strong> {{ 'Likely cancer' if prediction == 1 else 'Low likelihood' }}</p>
+    </section>
+    {% endif %}
+  </main>
+</body>
+
+</html>
+
